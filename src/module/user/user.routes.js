@@ -1,9 +1,15 @@
 import { Router } from "express";
-import validate from "../../common/middleware/validate.middleware";
-import Register from "./dto/Regiatration.Dto";
-import Login from "./dto/Login.Dto";
+import validate from "../../common/middleware/validate.middleware.js";
+import Register from "./dto/Regiatration.Dto.js";
+import login from "./dto/Login.Dto.js";
+import * as authController from "./user.controller.js"
+import Login from "./dto/Login.Dto.js";
+
+const authRouter = Router()
 
 
-Router.post('/registration',validate(Register),authController.register)
-Router.post('/login',validate(Login),authController.Login)
-Router.post('/logout',authController.logout)
+authRouter.post('/registration', validate(Register), authController.register)
+authRouter.post('/login', validate(Login), authController.login)
+authRouter.post('/logout', authController.logout)
+
+export default authRouter

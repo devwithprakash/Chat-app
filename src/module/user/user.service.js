@@ -1,5 +1,5 @@
 import { geanerateAccessToken, geanerateRefreshToken } from "../../common/utils/jwt.utils.js";
-import User from "./auth.model.js";
+import User from "./user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto"
 

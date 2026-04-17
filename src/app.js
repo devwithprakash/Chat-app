@@ -1,5 +1,6 @@
 import express from "express";
 import statusRouter from "./module/status/status.route.js";
+import authRouter from "./module/user/user.routes.js";
 
 const app = express();
 
@@ -12,6 +13,8 @@ app.get("/", (req, res) => {
         message: "Server is running",
     });
 });
+
+app.use("/auth", authRouter)
 
 app.use("/status", statusRouter);
 
