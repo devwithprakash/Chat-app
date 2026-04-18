@@ -10,10 +10,10 @@ const register = async (data) => {
     const { username, email, password, fullName, bio } = data;
 
     const emailExists = await User.findOne({ email });
-    if (emailExists) throw new Error("Email already exists");
+    if(emailExists) return res.status(400).json({ message: "Email already exists" });
 
     const usernameExists = await User.findOne({ username });
-    if (usernameExists) throw new Error("Username already exists");
+    if (usernameExists) return res.status(400).json({ message: "Username already exists" });
 
     const user = await User.create({
         username,
