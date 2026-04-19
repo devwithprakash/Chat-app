@@ -7,8 +7,7 @@ class Login extends BaseClass {
             .min(3)
             .max(30)
             .trim()
-            .required(),
-
+            ,
         password: Joi.string()
             .min(6)
             .pattern(/^(?=.*[A-Z])(?=.*\d).+$/)

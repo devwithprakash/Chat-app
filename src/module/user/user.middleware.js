@@ -1,4 +1,4 @@
-import { validateAccessToken } from "../../common/utils/jwt.utils.js";
+import { validateAccessToken, validateRefreshToken } from "../../common/utils/jwt.utils.js";
 import User from "./user.model.js";
 
 const authentication = async (req, resp, next) => {
@@ -11,10 +11,8 @@ const authentication = async (req, resp, next) => {
         return resp.status(401).json({ message: "user not authenticate" })
     }
 
-    const decoded = validateAccessToken(token)
-    
-    const user = await User.findById(decoded.id)
-
+    const decoded = validateRefreshToken(token)
+    const user = User.findById(decoded.id)
     if (!user) return resp.status(401).json({ message: "user not found" })
     req.user = user
     next()

@@ -1,11 +1,14 @@
-import app from './src/app.js'
-import { connectDB } from './src/common/config/db.js'
+import app from "./src/app.js";
+import "dotenv/config"
+import { connectDB } from "./src/common/config/db.js";
+
+const PORT = process.env.PORT || 5000;
+
 import { Server } from "socket.io";
 import http from "http";
 import chatSocket from "./src/module/chat/chat.socket.js";
 
 
-const PORT = process.env.PORT
 const server = http.createServer(app);
 
 const io = new Server(server, {
