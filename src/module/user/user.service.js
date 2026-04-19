@@ -10,10 +10,10 @@ const register = async (data) => {
     const { username, email, password, fullName, bio } = data;
 
     const emailExists = await User.findOne({ email });
-    if(emailExists) return res.status(400).json({ message: "Email already exists" });
+    if (emailExists) throw new Error("Email already exists");
 
     const usernameExists = await User.findOne({ username });
-    if (usernameExists) return res.status(400).json({ message: "Username already exists" });
+    if (usernameExists) throw new Error("Username already exists");
 
     const user = await User.create({
         username,
@@ -28,15 +28,28 @@ const register = async (data) => {
 
     return userObj;
 };
-
 const login = async (data) => {
     const { username, password } = data;
-    console.log("Username:", username);
-    const user = await User.findOne({ username }).select("+password");
-    if (!user) throw new Error("Invalid username or password");
-    console.log("Username:", username);
+
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(username);
+
+    let user;
+
+    if (isEmail) {
+        user = await User.findOne({ email: username }).select("+password");
+    } else {
+        user = await User.findOne({ username: username }).select("+password");
+    }
+
+    if (!user) {
+        throw { status: 400, message: "Invalid username or password" };
+    }
+
     const isPassword = await bcrypt.compare(password, user.password);
-    if (!isPassword) throw new Error("Invalid username or password");
+
+    if (!isPassword) {
+        throw { status: 400, message: "Invalid username or password" };
+    }
 
     const accessToken = generateAccessToken({ id: user._id });
     const refreshToken = generateRefreshToken({ id: user._id });
@@ -57,4 +70,15 @@ const logout = async (userId) => {
         { refreshToken: null }
     );
 };
-export default { register, login, logout };
+
+const getAllUsers = async () => {
+    const users = await User.find().select("-password -refreshToken").lean();
+    return users;
+}
+
+const getProfile = async (userId) => {
+    const user = await User.findById(userId).select("-password -refreshToken").lean();
+    return user;
+}
+
+export default { register, login, logout, getAllUsers, getProfile };
