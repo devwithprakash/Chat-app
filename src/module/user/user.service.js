@@ -38,8 +38,10 @@ const login = async (data) => {
     const isPassword = await bcrypt.compare(password, user.password);
     if (!isPassword) throw new Error("Invalid username or password");
 
+    console.log(user)
     const accessToken = generateAccessToken({ id: user._id });
     const refreshToken = generateRefreshToken({ id: user._id });
+
 
     user.refreshToken = hashToken(refreshToken);
     await user.save({ validateBeforeSave: false });

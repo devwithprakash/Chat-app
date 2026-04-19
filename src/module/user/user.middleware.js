@@ -12,11 +12,11 @@ const authentication = async (req, resp, next) => {
     }
 
     const decoded = validateAccessToken(token)
-    const user = User.findById(decoded.id)
+    
+    const user = await User.findById(decoded.id)
+
     if (!user) return resp.status(401).json({ message: "user not found" })
-    req.user = {
-        id: user._id
-    };
+    req.user = user
     next()
 
 }

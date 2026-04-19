@@ -28,4 +28,4 @@ const logout = async (req, res) => {
     });
 };
 
-export default { register, login, logout };
+export { register, login, logout };
