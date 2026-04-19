@@ -51,8 +51,10 @@ const login = async (data) => {
         throw { status: 400, message: "Invalid username or password" };
     }
 
+    console.log(user)
     const accessToken = generateAccessToken({ id: user._id });
     const refreshToken = generateRefreshToken({ id: user._id });
+
 
     user.refreshToken = hashToken(refreshToken);
     await user.save({ validateBeforeSave: false });

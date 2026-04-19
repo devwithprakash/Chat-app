@@ -1,4 +1,3 @@
-
 import authRoutes from "./module/user/user.routes.js"
 import express from "express"
 import chatRoutes from "./module/chat/chat.routes.js"

@@ -2,8 +2,7 @@ import ApiResponse from "../../common/utils/api-response.js"
 import * as statusService from "./status.service.js"
 
 const createStatus = async (req, res) => {
-    console.log(req.body.status)
-    const result = await statusService.createStatus(req.body.status, req.file)
+    const result = await statusService.createStatus(req.body.statusText, req.file, req.user._id)
 
     ApiResponse.ok(res, "status created", result)
 }
@@ -15,7 +14,7 @@ const deleteStatus = async (req, res) => {
 }
 
 const fetchAllStatus = async (req, res) => {
-    const result = await statusService.fetchStatus(req.user.id)
+    const result = await statusService.fetchAllStatus(req.user.id)
 
     if (result.length === 0) {
         ApiResponse.noContent("No status found")
