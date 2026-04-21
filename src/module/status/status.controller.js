@@ -3,7 +3,7 @@ import * as statusService from "./status.service.js"
 
 const createStatus = async (req, res) => {
     const result = await statusService.createStatus(req.body.statusText, req.file, req.user._id)
-    
+
     ApiResponse.ok(res, "status created", result)
 }
 
@@ -17,14 +17,18 @@ const fetchAllStatus = async (req, res) => {
     const result = await statusService.fetchAllStatus(req.user.id)
 
     if (result.length === 0) {
-       return res.status(204).json({success: true, message: "No status found"})
+        return res.status(200).json({
+            success: true,
+            message: "No status found",
+            result: []
+        });
     }
-    
-    return res.status(200).json({success: true, message: "All status", result})
+
+    return res.status(200).json({ success: true, message: "All status", result })
 
 }
 
-const fetchStatus = async(req, res)=>{
+const fetchStatus = async (req, res) => {
     const result = await statusService.fetchStatus(req.params.id)
 
     ApiResponse.ok(res, "Status fetched", result)
