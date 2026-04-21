@@ -17,7 +17,7 @@ const fetchAllStatus = async (req, res) => {
     const result = await statusService.fetchAllStatus(req.user.id)
 
     if (result.length === 0) {
-        ApiResponse.noContent("No status found")
+       return res.status(204).json({success: false, message: "No status found"})
     }
 
     ApiResponse.ok(res, "All status", result)
